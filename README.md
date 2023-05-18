@@ -8,4 +8,4 @@
 - While making moves, it is possible to move only along the lines on the line.
 - The game continues until the players have 2 pieces left. Any player loses the game as soon as they have 2 pieces left.
 
-* * This game is written in Lua and developed using the LuaRT library.  [www.luart.org ](https://www.luart.org))
+* * This game is written in Lua and developed using the LuaRT library.  [www.luart.org ](https://www.luart.org)
