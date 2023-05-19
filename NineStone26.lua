@@ -69,27 +69,41 @@ local moveControl = {[1]={2,10}, [2]={1,3,5}, [3]={2,15},
 						[19]={11,20}, [20]={17,19,21,23}, [21]={14,20},
 						[22]={10,23}, [23]={20,22,24}, [24]={15,23}
 					}
+local removeControl = {[1]={[1]={1,2,3}, [2]={1,10,22}}, [2]={[1]={1,2,3}, [2]={2,5,8}},
+						[3]={[1]={1,2,3}, [2]={3,15,24}}, [4]={[1]={4,5,6}, [2]={4,11,19}},
+						[5]={[1]={4,5,6}, [2]={2,5,8}}, [6]={[1]={4,5,6}, [2]={6,14,21}},
+						[7]={[1]={7,8,9}, [2]={7,12,16}}, [8]={[1]={2,5,8}, [2]={7,8,9}},
+						[9]={[1]={7,8,9}, [2]={9,13,18}}, [10]={[1]={1,10,22}, [2]={10,11,12}},
+						[11]={[1]={4,11,19}, [2]={10,11,12}}, [12]={[1]={7,12,16}, [2]={10,11,12}},
+						[13]={[1]={9,13,18}, [2]={13,14,15}}, [14]={[1]={6,14,21}, [2]={13,14,15}},
+						[15]={[1]={3,15,24}, [2]={13,14,15}}, [16]={[1]={7,12,16}, [2]={16,17,18}},
+						[17]={[1]={16,17,18}, [2]={17,20,23}}, [18]={[1]={16,17,18}, [2]={9,13,18}},
+						[19]={[1]={4,11,19}, [2]={19,20,21}}, [20]={[1]={19,20,21}, [2]={17,20,23}},
+						[21]={[1]={19,20,21}, [2]={6,14,21}}, [22]={[1]={1,10,22}, [2]={22,23,24}},
+						[23]={[1]={22,23,24}, [2]={17,20,23}}, [24]={[1]={22,23,24}, [2]={3,15,24}}
+						}
+
 local unControl = {}
--- local modeHumanMove= "off"  -- modlar hangi yerden hangi oyuncunun o anda oynadığını on/off şeklinde tutar.
+-- local modeHumanMove= "off"
 -- local modeHumanHome= "off"
 -- local modeHumanBoard= "off"
 -- local modeComputerMove= "off"
 -- local modeComputerHome= "off"
 -- local modeComputerBoard= "off"
 local modeHome = "Off"
-local modeClick= "Off"	 -- mouse click yapıldıkça on/off olur bir nevi bayrak görevi görür
+local modeClick= "Off"
 local tempPlayer = {"Computer", "Human"}
 local modePlayer = tempPlayer[math.random(1,2)]	-- 1= Computer, 2=Human
 modePlayer = "Human" --TEMP !!! it will be remove
-local startPlayerName = modePlayer  -- Oyuna ilk kim başladı
+local startPlayerName = modePlayer
 local modeRemove = "Off"
 
 local music = "Off"
 local mousePosX = 0
 local mousePosY = 0
-local difficulty = "Easy"	 -- "Easy" "Medium" "Hard" 
+local difficulty = "Easy" -- "Easy" "Medium" "Hard" 
 local movedCounter = 0  -- oyun kaçıncı eli oynuyor
-local info = "" -- Oyunda yanlış yapılan yada yapılması gereken bilgisini verir 
+local info = "" 
 --local animationX = -50
 --local animationY = -50
 
@@ -116,20 +130,20 @@ local imgSoundOn = tuval:Image("Media/CheckBoxOKEY.png")
 
 win:show()
 
-local lastIndex = nil -- Bir önce oynanan kırmızı taşın indexini tutar
-local counter = 0  -- son kırmızı taş stoktan alındığğnda  bir kereliğine oyunun ikinci safhasına girmemesi için
+local lastIndex = nil
+local counter = 0 
 	
 function tuval:onClick(_xClick, _yClick) --Clicking on the stone, it will be captured
 	info = ""
-	if (modePlayer == "Human") and  (modeClick == "Off")  and (modeRemove == "Off") then --Oynayan Human ise Taşa tıkladıksa
-		if #position.home.human > 0 then  --Stoktaki taşlar hala duruyorsa Stoktan taş almaya müsade et
+	if (modePlayer == "Human") and  (modeClick == "Off")  and (modeRemove == "Off") then
+		if #position.home.human > 0 then
 			getHome(_xClick, _yClick)
-		else  --Stoktaki taşlar bittiyse boarddan taş almaya müsade et
+		else
 			getStone(_xClick, _yClick)	
 		end		
 	end
 	
-	if (modePlayer == "Human") and  (modeClick == "On")  and (modeRemove == "Off") then  --Oynayan Human ise Taş zaten tıklanıp mousedeyse
+	if (modePlayer == "Human") and  (modeClick == "On")  and (modeRemove == "Off") then 
 		if (#position.home.human >= 0 ) and (counter == 0) then
 			modeHome = "On"
 			putStone(_xClick, _yClick)			
@@ -208,7 +222,7 @@ function resim()
 	tuval:print("Moved: "..movedCounter, 380, 360)
 	tuval:print("Music On/Off", 720, 15)
 	
-	if movedCounter == 0 then  -- Sadece açılışta bir kere gösterilir
+	if movedCounter == 0 then
 		tuval:print("Easy", 800, 45)
 		tuval:print("Medium", 800, 70)
 		tuval:print("Hard", 800, 95)
@@ -232,7 +246,7 @@ function resim()
 	tuval:flip()
 	
 	if modePlayer == "Computer" then
-		ui.update(10) --1000 yapacağız
+		ui.update(50) --1000 yapacağız
 		AI()
 	end
 end
@@ -268,7 +282,7 @@ function getHome(_x, _y) --Stokta taşlar bitmemişse
 	end
 end
 
-function putStone(_x, _y)	--Stoktaki taşlardan alıp koy	-- putStonesInStock(_x, _y)	
+function putStone(_x, _y)
 	if modeHome == "On" then
 		for i=1, #position.board do
 			if (_x > position.board[i].x-18) and (_x < position.board[i].x + 18) and (_y > position.board[i].y-18) and (_y < position.board[i].y + 18) then
@@ -279,9 +293,9 @@ function putStone(_x, _y)	--Stoktaki taşlardan alıp koy	-- putStonesInStock(_x
 					modeClick = "Off"				
 					movedCounter = movedCounter + 1
 					soundClick:play()
-					local tempTriple = destroyStone("Red")  -- 3lü yanyana/üstüste taş varmı kırmızıda kontrol et  --DENEME!!!!!
-					if tempTriple == true then --DENEME!!!!!
-						info = "Destroye a Black Stone!"  --DENEME!!!!!
+					local tempTriple = destroyStone("Red")
+					if tempTriple == true then
+						info = "Destroye a Black Stone!"
 						modeRemove = "On"
 						if #position.home.human == 0 then
 							counter = 1
@@ -302,8 +316,8 @@ function putStone(_x, _y)	--Stoktaki taşlardan alıp koy	-- putStonesInStock(_x
 	else
 		for i=1, #position.board do
 			if (_x > position.board[i].x-18) and (_x < position.board[i].x + 18) and (_y > position.board[i].y-18) and (_y < position.board[i].y + 18) then	
-				for j= 1, #moveControl[lastIndex] do --Alınan taşın sağ-sol-yukarı-aşağısı kaç tane kadar kontrol
-					if i == moveControl[lastIndex][j] then --Konulan taş alınan taşın sağ-sol-yukarı-aşağısındaysa
+				for j= 1, #moveControl[lastIndex] do
+					if i == moveControl[lastIndex][j] then
 						_x = _x +18
 						_y = _y +18
 						if stones.board[i] == "Empty" then
@@ -311,6 +325,26 @@ function putStone(_x, _y)	--Stoktaki taşlardan alıp koy	-- putStonesInStock(_x
 							modeClick = "Off"
 							modePlayer = "Computer"
 							movedCounter = movedCounter + 1
+							
+						 --DENEME!!!!!!!!!!!!!!!!!
+							soundClick:play()
+							local tempTriple = destroyStone("Red")
+							if tempTriple == true then
+								info = "Destroye a Black Stone!"
+								modeRemove = "On"
+								if #position.home.human == 0 then
+									counter = 1
+								end	
+								break
+							else
+								modePlayer = "Computer"
+							end
+							if #position.home.human == 0 then
+								counter = 1
+							end				
+							break							
+						--DENEME!!!!!!!!!!!!!!!!!
+						
 						else
 							soundWrong:play()
 							stones.board[lastIndex]= "Red"
@@ -325,7 +359,7 @@ function putStone(_x, _y)	--Stoktaki taşlardan alıp koy	-- putStonesInStock(_x
 	end
 end
 
-function getStone(_x, _y) -- Stoktaki taşlar bitmiş ve oyun oynama evresi başlamışsa
+function getStone(_x, _y)
 	for i=1, #position.board do
 		if (_x > position.board[i].x-18) and (_x < position.board[i].x + 18) and (_y > position.board[i].y - 18) and (_y < position.board[i].y + 18 ) and (stones.board[i] == "Red") then
 			_x = _x +18
@@ -340,8 +374,9 @@ function getStone(_x, _y) -- Stoktaki taşlar bitmiş ve oyun oynama evresi baş
 end
 
 
-function destroyStone(_colour) --YENİ !!!!!!
-	local tempTable={}	
+function destroyStone(_colour)
+	local tempTable={}
+	local returnTemp = false 
 	for i=1, #tripleControl do
 		local tempCounter = 0
 		for j=1 , #tripleControl[i] do			
@@ -349,42 +384,58 @@ function destroyStone(_colour) --YENİ !!!!!!
 				tempCounter = tempCounter + 1
 			end						
 		end	
-		if tempCounter == 3 then  -- Eğer 3 Siyah taş yanyana/üst üste gelmişse 
-			table.insert(tempTable, i)  --DENEME!!!!!
+		if tempCounter == 3 then
+			table.insert(tempTable, i)
 		end
 	end
-	
-	for i=1, #tempTable then --DENEME!!!!!
-		local temp1= false --DENEME!!!!!
-		for j=1, #unControl then	 --DENEME!!!!!		
-			if tempTable[i] == unControl[j] then --DENEME!!!!!
-				temp1 = true	 --DENEME!!!!!			
-			end --DENEME!!!!!
-		end --DENEME!!!!!
-		if temp1 == true then --DENEME!!!!!
-			table.insert(unControl, i) --DENEME!!!!!
-		end --DENEME!!!!!
-	end --DENEME!!!!!
-	
-	return true  --DENEME!!!!!
-	--------
+
+	for i=1, #tempTable do
+		local temp1 = false	
+		for j=1, #unControl do	
+			if tempTable[i] == unControl[j] then
+				temp1 = true
+			end
+		end
+		if temp1 == false then
+			returnTemp = true	
+			table.insert(unControl, tempTable[i])
+		end
+	end
+	return returnTemp
 end
 
-function getRemove(_x, _y) -- Taş yeme modumuz
+function getRemove(_x, _y)  --Taş yeme modumuz 
 	for i=1, #position.board do
 		if (_x > position.board[i].x-18) and (_x < position.board[i].x + 18) and (_y > position.board[i].y - 18) and (_y < position.board[i].y + 18 ) and (stones.board[i] == "Black") then
-			_x = _x +18
-			_y = _y +18	
-			modeClick = "On"			
-			soundClick:play()
-			stones.board[i] = "Empty"
-			lastIndex = i
-			modeClick = "Off"
-			modeRemove = "Off"
-			modePlayer = "Computer"
-			break			
+			if AI_Remove(i) then
+				_x = _x +18
+				_y = _y +18	
+				modeClick = "On"			
+				soundClick:play()
+				stones.board[i] = "Empty"
+				lastIndex = i
+				modeClick = "Off"
+				modeRemove = "Off"
+				modePlayer = "Computer"
+				break
+			end
 		end
 	end	
+end
+
+function AI_Remove(_index) 
+	for i=1 , #removeControl[_index] do	
+	local tempCounter = 0
+		for j= 1, 	#removeControl[_index][i] do 
+			if stones.board[removeControl[_index][i][j]] == "Black" then
+				tempCounter = tempCounter + 1
+			end						
+		end
+		if tempCounter == 3 then
+			return false
+		end
+	end
+	return true
 end
 
 function AI_Easy()
@@ -440,27 +491,27 @@ function AI_Hard()
 end
 
 function AI()
-	if #position.home.computer > 0 then -- Eğer Stokta taş varsa bunları yap
-		if startPlayerName == "Human" then --Eğer oyuna ilk başlayan Human ise o zaman Savunma oyna
+	if #position.home.computer > 0 then
+		if startPlayerName == "Human" then 
 			local temp
-			if difficulty == "Easy" then -- Eğer zorluk "Easy" ise
+			if difficulty == "Easy" then 
 				temp = AI_Easy()				
-			elseif difficulty == "Medium" then -- Eğer zorluk "Medium" ise
+			elseif difficulty == "Medium" then 
 				temp = AI_Medium()
 				if temp == 0 then
-					temp = AI_Easy()  --Eğer ü bişey yoksa tesadüfen bul
+					temp = AI_Easy() 
 				end
-			elseif difficulty == "Hard" then  -- Eğer zorluk "Hard" ise
+			elseif difficulty == "Hard" then 
 				temp = AI_Hard()
 				if temp == 0 then
-					temp = AI_Medium()  --Eğer triplede bişey yoksa Mediumu kontrol et
+					temp = AI_Medium() 
 					if temp == 0 then
-						temp = AI_Easy() --Eğer triplede bişey yoksa tesadüfen bul
+						temp = AI_Easy()
 					end
 				end	
 			end
 			
-			table.remove(position.home.computer, 1) -- Düzeltilecek !!! remove() den kurtul emty yap
+			table.remove(position.home.computer, 1)
 			--Animation(temp)
 			stones.board[temp] = "Black"
 						
@@ -469,7 +520,6 @@ function AI()
 	modePlayer = "Human"
 	movedCounter = movedCounter + 1
 end
-
 
 repeat
 	resim()
