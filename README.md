@@ -1,6 +1,8 @@
 # Nine-Stone
 9 stone game, one of the oldest known games in the world, is an enjoyable strategy game played with 2 people and on the game ground combined with a line from the middle points of 3 interlocking squares. Players try to eat the opponent's pieces by moving their 9 pieces according to certain rules. 9 stone games are among the most special games dating back to the ancient Egyptian period.
 
+![Adsız](https://github.com/co00kun/Nine-Stone/assets/35631378/b04f6899-6177-4647-a44d-e9080183e06d)
+
 - The game board consists of 24 tile dots.
 - Your computer randomly selects the player to start the game
 - In the first part of the game, the players place the 9 stones in the stock in order from 24 empty points. The game continues in this way until each team runs out of 9 pieces.
