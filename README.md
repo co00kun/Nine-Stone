@@ -14,23 +14,25 @@
 
  This game is written in Lua and developed using the LuaRT library.  [www.luart.org ](https://www.luart.org)
 
-# # # DONE
-Artwork is almost finished.
-Human is able to play the game
-Added Music On/Off Board.
-The difficulty level has been added to the Board.
-Difficulty levels have been added to the Board.
-The stones are placed on the board.
-When a wrong move is made, the piece we played returns to its previous position.
-Added the ability to remove the opponent's stone in the game.
-Added the feature of removing the opposing team's 3 side-by-side and overlapping stone groups.
-If any player manages to line up 3 pieces horizontally or vertically side by side , "Remove a stone" text has been added on the Board.
-artificial intelligence was developed.
+ DONE
+ -------
+- Artwork is almost finished.
+- Human is able to play the game
+- Added Music On/Off Board.
+- The difficulty level has been added to the Board.
+- Difficulty levels have been added to the Board.
+- The stones are placed on the board.
+- When a wrong move is made, the piece we played returns to its previous position.
+- Added the ability to remove the opponent's stone in the game.
+- Added the feature of removing the opposing team's 3 side-by-side and overlapping stone groups.
+- If any player manages to line up 3 pieces horizontally or vertically side by side , "Remove a stone" text has been added on the Board.
+- Artificial intelligence was developed.
 
 
-# # # To Do
-Animation will be enhanced when the computer moves.
-Artificial intelligence has not yet been made.
-The rules haven't been put into the game yet.
-Warning text will be added on Board when wrong move is made.
-All the rules made while playing Human will be made while playing Computer.
+To Do
+-------
+- Animation will be enhanced when the computer moves.
+- Artificial intelligence has not yet been made.
+- The rules haven't been put into the game yet.
+- Warning text will be added on Board when wrong move is made.
+- All the rules made while playing Human will be made while playing Computer.
